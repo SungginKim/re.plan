@@ -7,7 +7,7 @@ const Searchbar = () => {
       <Search color="gray" className="absolute right-5" />
       <input
         name="search"
-        className="bg-[#F5F6FA] border-[#D5D5D5] border-1 rounded-full h-[35px] w-[350px] px-5 outline-0"
+        className="bg-[#F5F6FA] border-[#D5D5D5] border-1 rounded-full h-8 px-5 outline-0"
         placeholder="Search"
       />
     </div>

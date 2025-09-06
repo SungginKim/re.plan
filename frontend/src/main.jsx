@@ -6,6 +6,7 @@ import HomePage from "./pages/Home/HomePage";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 import Wrapper from "./wrapper";
 import FavoritesPage from "./pages/Favorites/FavoritesPage";
+import SettingsPage from "./pages/Settings/SettingsPage";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
@@ -15,6 +16,7 @@ createRoot(document.getElementById("root")).render(
         <Route element={<Wrapper />}>
           <Route path="/home" element={<HomePage />} />
           <Route path="/favorites" element={<FavoritesPage />} />
+          <Route path="/settings" element={<SettingsPage />} />
         </Route>
       </Routes>
     </BrowserRouter>

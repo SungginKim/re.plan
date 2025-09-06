@@ -4,8 +4,7 @@ import Dropdown from "@/components/Dropdown";
 import { SidebarProvider, SidebarTrigger } from "./components/ui/sidebar";
 import { Outlet } from "react-router-dom";
 import Sidenav from "./components/Sidenav";
-import { NotepadText, Bookmark, SlidersHorizontal } from "lucide-react"; 
-
+import { NotepadText, Bookmark, SlidersHorizontal } from "lucide-react";
 import profile from "@/assets/images/profile.jpg";
 
 const content = [
@@ -15,16 +14,16 @@ const content = [
 
 const utility = [
   { title: "Settings", url: "/settings" },
-  { title: "Logout", url: "/logout" },
+  { title: "Logout", url: "/" },
 ];
-const user = { name: "Sunggin Kim", avatar: profile }
+const user = { name: "Sunggin Kim", avatar: profile };
 
 const categories = ["Appetizer", "Main", "Side", "Dessert", "Snack", "Drink"];
 
 const Wrapper = () => {
   return (
     <SidebarProvider>
-      <div className="flex h-screen w-screen bg-white">
+      <div className="flex h-screen w-screen">
         <Sidenav content={content} utility={utility} user={user} />
         <SidebarTrigger className="block md:hidden ml-6 mt-4" />
         <div className="flex flex-1 flex-col">

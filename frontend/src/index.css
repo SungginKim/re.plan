@@ -1,9 +1,20 @@
+@import url("https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap");
 @import "tailwindcss";
 @import "tw-animate-css";
 
+
 @custom-variant dark (&:is(.dark *));
 
+@font-face {
+  font-family: "Nunito";
+  src: url("./assets/nunito/Nunito/Regular/400.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+
 @theme inline {
+  --font-nunito: Nunito, "sans-serif";
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);

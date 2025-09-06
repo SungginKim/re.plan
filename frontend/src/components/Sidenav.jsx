@@ -59,7 +59,7 @@ const Sidenav = ({ content, utility, user}) => {
                   <SidebarMenuItem key={item.title}>
                     <SidebarMenuButton
                       asChild
-                      className={`${isActive ? "bg-[#FF7518] hover:bg-[#FF7518] text-white" : ""}  rounded-md py-4 text-sm md:py-6 md:text-md`}
+                      className={`${isActive ? "bg-[#FF7518] hover:bg-[#FF7518] text-white hover:text-white" : ""}  rounded-md py-4 text-sm md:py-6 md:text-md`}
                     >
                       <Link to={item.url}>{item.title}</Link>
                     </SidebarMenuButton>

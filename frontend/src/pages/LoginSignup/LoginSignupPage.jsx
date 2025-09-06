@@ -1,4 +1,4 @@
-import { Link } from "react-router";
+import { useNavigate } from "react-router-dom";
 import loginImg from "@/assets/images/login.jpg";
 import LoginForm from "./LoginForm";
 import SignupForm from "./SignupForm";
@@ -10,15 +10,10 @@ const LoginSignupPage = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [loginSignup, setLoginSignup] = useState("login");
-  const handleSubmit = () => {
-    if (loginSignup === "login") {
-      console.log("Email:", email);
-      console.log("Password:", password);
-    } else {
-      console.log("Name:", name);
-      console.log("Email:", email);
-      console.log("Password:", password);
-    }
+  const navigate = useNavigate();
+  const handleSubmit = (e) => {
+    e.preventDefault(); // prevent page reload
+    navigate("/home");
   };
 
   return (

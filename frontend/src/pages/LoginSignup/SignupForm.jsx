@@ -21,6 +21,7 @@ const SignupForm = ({
           id="name"
           value={name}
           placeholder="Name"
+          required
           onChange={(e) => setName(e.target.value)}
         />
       </div>
@@ -31,6 +32,7 @@ const SignupForm = ({
           type="text"
           id="email"
           value={email}
+          required
           placeholder="user@email.com"
           onChange={(e) => setEmail(e.target.value)}
         />

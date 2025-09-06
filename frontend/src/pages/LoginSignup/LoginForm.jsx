@@ -9,6 +9,7 @@ const LoginForm = ({handleSubmit, email, setEmail, password, setPassword}) => {
           className=" bg-[#F7FBFF] border-1 border-[#D4D7E3] rounded-xl p-2 my-2"
           type="text"
           id="email"
+          required
           value={email}
           placeholder="user@email.com"
           onChange={(e) => setEmail(e.target.value)}
@@ -20,13 +21,17 @@ const LoginForm = ({handleSubmit, email, setEmail, password, setPassword}) => {
           className=" bg-[#F7FBFF] border-1 border-[#D4D7E3] rounded-xl p-2 my-2"
           type="password"
           id="password"
+          required
           value={password}
           placeholder="Enter password"
           onChange={(e) => setPassword(e.target.value)}
         />
       </div>
 
-      <button type="submit" className="bg-[#FF7518] py-2 rounded-xl text-white cursor-pointer">
+      <button
+        type="submit"
+        className="bg-[#FF7518] py-2 rounded-xl text-white cursor-pointer"
+      >
         Sign in
       </button>
     </form>

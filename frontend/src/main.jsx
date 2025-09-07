@@ -7,6 +7,7 @@ import { Routes, Route, BrowserRouter } from "react-router-dom";
 import Wrapper from "./wrapper";
 import FavoritesPage from "./pages/Favorites/FavoritesPage";
 import SettingsPage from "./pages/Settings/SettingsPage";
+import CreateRecipe from "./pages/CreateRecipe/CreateRecipe";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
@@ -17,6 +18,7 @@ createRoot(document.getElementById("root")).render(
           <Route path="/home" element={<HomePage />} />
           <Route path="/favorites" element={<FavoritesPage />} />
           <Route path="/settings" element={<SettingsPage />} />
+          <Route path="/create-recipe" element={<CreateRecipe />} />
         </Route>
       </Routes>
     </BrowserRouter>

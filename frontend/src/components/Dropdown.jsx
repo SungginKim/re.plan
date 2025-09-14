@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 import {
   Select,
   SelectContent,
@@ -8,21 +8,36 @@ import {
 } from "@/components/ui/select";
 import { SelectGroup } from "@radix-ui/react-select";
 
-const Dropdown = ({items, placeholder}) => {
+const Dropdown = ({ items = [], placeholder, onChange }) => {
   return (
-    <Select>
-        <SelectTrigger>
-            <SelectValue placeholder={placeholder}/>
+    <div className="w-full">
+      {" "}
+      <Select>
+        <SelectTrigger className="w-full">
+          {" "}
+          <SelectValue placeholder={placeholder} />
         </SelectTrigger>
-        <SelectContent align='end'>
-            <SelectGroup>
-                {items.map((item) => 
-                    <SelectItem value={item.toLowerCase()}>{item}</SelectItem>
-                )}
-            </SelectGroup>
+        <SelectContent
+          align="end"
+          className="w-[var(--radix-select-trigger-width)]"
+          style={{ width: "var(--radix-select-trigger-width)" }}
+        >
+          <SelectGroup>
+            {items.map((item) => (
+              <SelectItem
+                key={item}
+                value={item.toLowerCase()}
+                onChange={onChange}
+                className="w-full"
+              >
+                {item}
+              </SelectItem>
+            ))}
+          </SelectGroup>
         </SelectContent>
       </Select>
-  )
-}
+    </div>
+  );
+};
 
-export default Dropdown
+export default Dropdown;

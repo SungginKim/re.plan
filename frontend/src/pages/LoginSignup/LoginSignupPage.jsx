@@ -3,6 +3,7 @@ import loginImg from "@/assets/images/login.jpg";
 import LoginForm from "./LoginForm";
 import SignupForm from "./SignupForm";
 import { useState } from "react";
+import { supabase } from "../../supabaseClient";
 
 const LoginSignupPage = () => {
   const [name, setName] = useState("");
@@ -11,9 +12,27 @@ const LoginSignupPage = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [loginSignup, setLoginSignup] = useState("login");
   const navigate = useNavigate();
-  const handleSubmit = (e) => {
-    e.preventDefault(); // prevent page reload
-    navigate("/home");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (loginSignup === "login") {
+      const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+      if (error) return alert(error.message);
+      navigate("/home");
+    } else {
+      const { error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: { data: { name } },
+      });
+      if (error) return alert(error.message);
+      alert("Signup successful! Please check your email to confirm.");
+      setLoginSignup("login");
+    }
   };
 
   return (
@@ -57,7 +76,13 @@ const LoginSignupPage = () => {
             <p className="mx-auto mb-4">
               Don't have an account?{" "}
               <button
-                onClick={() => setLoginSignup("signup")}
+                onClick={() => {
+                  setLoginSignup("signup");
+                  setName("");
+                  setEmail("");
+                  setPassword("");
+                  setConfirmPassword("");
+                }}
                 className="text-blue-800"
               >
                 Sign up
@@ -67,7 +92,13 @@ const LoginSignupPage = () => {
             <p className="mx-auto mb-4">
               Already have an account?{" "}
               <button
-                onClick={() => setLoginSignup("login")}
+                onClick={() => {
+                  setLoginSignup("login");
+                  setName("");
+                  setEmail("");
+                  setPassword("");
+                  setConfirmPassword("");
+                }}
                 className="text-blue-800"
               >
                 Sign in

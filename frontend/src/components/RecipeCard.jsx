@@ -17,7 +17,7 @@ const RecipeCard = ({ recipe }) => {
             {<Bookmark color="none" fill="gray" className="size-5" />}
           </button>
         </div>
-        <p className="text-[20px] font-bold font-nunito truncate w-full">{recipe.name}</p>
+        <p className="text-[20px] font-bold font-nunito truncate w-full">{recipe.title}</p>
       </div>
       <div className="flex gap-5 text-[10px] text-gray-500 font-semibold h-fit w-fit">
         <p className="flex ">
@@ -26,11 +26,11 @@ const RecipeCard = ({ recipe }) => {
         </p>
         <p className="flex">
           {<ChartNoAxesColumnIncreasing className="size-[13px]" />}
-          {recipe.difficulty}
+          {recipe.prepTime}
         </p>
         <p className="flex">
           {<Timer className="size-[13px]" />}
-          {recipe.time}
+          {recipe.cookingTime}
         </p>
       </div>
     </div>

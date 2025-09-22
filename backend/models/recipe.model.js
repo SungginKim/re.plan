@@ -5,6 +5,11 @@ const recipeSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    category:{
+        type: String,
+        enum: ["Appetizer", "Main", "Side", "Dessert"],
+        required: true
+    },
     difficultyLevel: {
         type: String,
         enum: ['Easy', 'Moderate', 'Difficult'],

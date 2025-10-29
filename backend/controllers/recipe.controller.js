@@ -1,7 +1,7 @@
 import Recipe from "../models/recipe.model.js";
 import mongoose from "mongoose";
 
-export const createtRecipes = async (req, res) => {
+export const createRecipes = async (req, res) => {
     const recipe = req.body; // Note: User will send this data
     if (!recipe.title || !recipe.category || !recipe.difficultyLevel || !recipe.servings || !recipe.prepTime || !recipe.cookTime || !recipe.ingredients) {
         return res.status(400).json({ success: false, message: "Please provide the required fields" });
@@ -28,7 +28,7 @@ export const deleteRecipes = async (req, res) => {
     }
 }
 
-export const updateRecipes =  async (req, res) => {
+export const updateRecipes = async (req, res) => {
     const { id } = req.params;
     const recipe = req.body;
     if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -42,13 +42,13 @@ export const updateRecipes =  async (req, res) => {
     }
 }
 
-export const getRecipes = async(req, res) =>{
+export const getRecipes = async (req, res) => {
     try {
         const recipes = await Recipe.find({});
-        res.status(200).json({success:true, data:recipes});
-        
+        res.status(200).json({ success: true, data: recipes });
+
     } catch (error) {
         console.log("Erroe in fetching products: ", error.message);
-        res.status(500).json({success: false, message: "Server Error"});
+        res.status(500).json({ success: false, message: "Server Error" });
     }
 }

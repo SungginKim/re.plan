@@ -8,7 +8,7 @@ import Wrapper from "./wrapper";
 import FavoritesPage from "./pages/Favorites/FavoritesPage";
 import SettingsPage from "./pages/Settings/SettingsPage";
 import CreateRecipe from "./pages/CreateRecipe/CreateRecipe";
-import RequireAuth from "./auth";
+import RequireAuth from "./authJWT";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>

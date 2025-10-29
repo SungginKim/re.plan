@@ -3,7 +3,6 @@ import loginImg from "@/assets/images/login.jpg";
 import LoginForm from "./LoginForm";
 import SignupForm from "./SignupForm";
 import { useState } from "react";
-import { supabase } from "../../supabaseClient";
 
 const LoginSignupPage = () => {
   const [name, setName] = useState("");
@@ -13,25 +12,108 @@ const LoginSignupPage = () => {
   const [loginSignup, setLoginSignup] = useState("login");
   const navigate = useNavigate();
 
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+
+  //   if (loginSignup === "login") {
+  //     try {
+  //       const res = await fetch("http://localhost:5000/api/users/login", {
+  //         method: "POST",
+  //         headers: { "Content-Type": "application/json" },
+  //         body: JSON.stringify({ email, password }),
+  //       });
+
+  //       const data = await res.json();
+
+  //       if (!res.ok) {
+  //         return alert(data.message);
+  //       }
+
+  //       localStorage.setItem("token", data.token);
+  //       navigate("/home");
+  //     } catch (err) {
+  //       console.error(err);
+  //       alert("Login failed");
+  //     }
+  //   } else {
+  //     try {
+  //       const res = await fetch("http://localhost:5000/api/users/register", {
+  //         method: "POST",
+  //         headers: { "Content-Type": "application/json" },
+  //         body: JSON.stringify({ username: name, email, password }),
+  //       });
+
+  //       const data = await res.json();
+
+  //       if (!res.ok) {
+  //         return alert(data.message);
+  //       }
+
+  //       alert("Signup successful! You can now log in.");
+  //       setLoginSignup("login");
+  //       setName("");
+  //       setEmail("");
+  //       setPassword("");
+  //       setConfirmPassword("");
+  //     } catch (err) {
+  //       console.error(err);
+  //       alert("Signup failed");
+  //     }
+  //   }
+  // };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (loginSignup === "login") {
-      const { error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
-      if (error) return alert(error.message);
-      navigate("/home");
+      try {
+        const res = await fetch("http://localhost:5000/api/users/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, password }),
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          return alert(data.message);
+        }
+
+        localStorage.setItem("token", data.token);
+        navigate("/home");
+      } catch (err) {
+        console.error(err);
+        alert("Login failed");
+      }
     } else {
-      const { error } = await supabase.auth.signUp({
-        email,
-        password,
-        options: { data: { name } },
-      });
-      if (error) return alert(error.message);
-      alert("Signup successful! Please check your email to confirm.");
-      setLoginSignup("login");
+      // Check if passwords match
+      if (password !== confirmPassword) {
+        return alert("Passwords do not match");
+      }
+
+      try {
+        const res = await fetch("http://localhost:5000/api/users/register", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ username: name, email, password }),
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          return alert(data.message);
+        }
+
+        alert("Signup successful! You can now log in.");
+        setLoginSignup("login");
+        setName("");
+        setEmail("");
+        setPassword("");
+        setConfirmPassword("");
+      } catch (err) {
+        console.error(err);
+        alert("Signup failed");
+      }
     }
   };
 

@@ -4,8 +4,8 @@ import Dropdown from "@/components/Dropdown";
 import { useRecipeStore } from "@/stores/recipeStore";
 import { useNavigate } from "react-router-dom";
 
-
 const categories = ["Appetizer", "Main", "Side", "Dessert", "Snack", "Drink"];
+const difficultyLevels = ["Easy", "Moderate", "Difficult"];
 
 const CreateRecipe = () => {
   const [title, setTitle] = useState("");
@@ -16,6 +16,7 @@ const CreateRecipe = () => {
   const [ingredientName, setIngredientName] = useState("");
   const [ingredientQty, setIngredientQty] = useState("");
   const [category, setCategory] = useState("");
+  const [difficultyLevel, setDifficultyLevel] = useState("");
 
   const [instructions, setInstructions] = useState([]);
   const [instructionStep, setInstructionStep] = useState("");
@@ -28,17 +29,19 @@ const CreateRecipe = () => {
     const newRecipe = {
       title,
       category,
+      difficultyLevel,
       servings,
       prepTime,
       cookingTime,
       ingredients,
-      instructions: instructions.map((item)=>item.text)
-    }
+      instructions: instructions.map((item) => item.text),
+    };
 
     addRecipe(newRecipe);
     setTitle("");
     setServings(0);
     setCategory("");
+    setDifficultyLevel("");
     setCookingTime(0);
     setPrepTime(0);
     setIngredients([]);
@@ -48,7 +51,7 @@ const CreateRecipe = () => {
     setInstructionStep("");
 
     navigate("/home");
-  }
+  };
 
   const handleAddInstructions = (e) => {
     e.preventDefault();
@@ -80,8 +83,9 @@ const CreateRecipe = () => {
           </h1>
           <div className="flex gap-2">
             <button
+            type="button"
               onClick={() => navigate("/home")}
-              className="w-fit rounded-full border-2 border-gray-400 px-2 py-1 flex gap-1 font-semibold text-gray-700"
+              className="w-fit rounded-full border-2 border-gray-400 px-2 py-1 flex gap-1 font-semibold text-gray-700 cursor-pointer"
             >
               <ArrowLeft color="gray" />
               Go Back
@@ -118,17 +122,19 @@ const CreateRecipe = () => {
                 />
               </div>
               <div className="flex flex-col">
-                <label className="text-gray-700 block mb-1">Serving</label>
-                <input
-                  type="number"
-                  placeholder="Enter Servings"
-                  className="border border-gray-500 rounded-sm px-2 py-1 w-full"
-                  value={servings}
-                  onChange={(e) => setServings(Number(e.target.value))}
+                <label className="text-gray-700 block mb-1">
+                  Difficulty Level
+                </label>
+                <Dropdown
+                  items={difficultyLevels}
+                  placeholder="Select a Category"
+                  value={difficultyLevel}
+                  onChange={setDifficultyLevel}
+                  className="w-full"
                 />
               </div>
             </div>
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-3 gap-2">
               <div className="flex flex-col">
                 <label className="text-gray-700 block mb-1">Prep Time</label>
                 <input
@@ -147,6 +153,16 @@ const CreateRecipe = () => {
                   className="border border-gray-500 rounded-sm px-2 py-1 w-full"
                   value={cookingTime}
                   onChange={(e) => setCookingTime(Number(e.target.value))}
+                />
+              </div>
+              <div className="flex flex-col">
+                <label className="text-gray-700 block mb-1">Serving</label>
+                <input
+                  type="number"
+                  placeholder="Enter Servings"
+                  className="border border-gray-500 rounded-sm px-2 py-1 w-full"
+                  value={servings}
+                  onChange={(e) => setServings(Number(e.target.value))}
                 />
               </div>
             </div>

@@ -3,18 +3,27 @@ import { CookingPot } from "lucide-react";
 import { ChartNoAxesColumnIncreasing } from "lucide-react";
 import { Timer } from "lucide-react";
 import { Bookmark } from "lucide-react";
-import { Soup } from "lucide-react";
+import { Soup, Trash } from "lucide-react";
 import { useRecipeStore } from "@/stores/recipeStore";
+import Modal from "./Modal";
 
 const RecipeCard = ({ recipe }) => {
   const favorites = useRecipeStore((state) => state.favorites);
-  const toggleFavorites = useRecipeStore((state) => state.toggleFavorites); 
+  const toggleFavorites = useRecipeStore((state) => state.toggleFavorites);
+  const removeRecipe = useRecipeStore((state) => state.removeRecipe);
   const saved = favorites.some((fav) => fav.id === recipe.id);
   const [save, setSave] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
+
   const handleSave = () => {
     toggleFavorites(recipe);
-    setSave(!save)
-  }
+    setSave(!save);
+  };
+
+  const handleDelete = () => {
+    removeRecipe(recipe.id);
+    setOpenModal(false);
+  };
 
   return (
     <div className="h-[170px] bg-white rounded-xl flex flex-col justify-between p-3">
@@ -23,16 +32,33 @@ const RecipeCard = ({ recipe }) => {
           <div className="size-[67px] bg-[#FFDED1] rounded-3xl flex justify-center items-center">
             {<Soup color="#FF7518" className="w-[60%] h-[60%]" />}
           </div>
-          <button
-            onClick={handleSave}
-            className={`${!saved ? "bg-white" : "bg-orange-custom"} w-[30px] h-[30px] rounded-full flex justify-center items-center cursor-pointer`}
-          >
-            {!saved ? (
-              <Bookmark color="none" fill="gray" className="size-5" />
-            ) : (
-              <Bookmark color="none" fill="white" className="size-5" />
+          <div className="flex align-items justify-center h-fit gap-2">
+            <button
+              className="cursor-pointer"
+              onClick={() => setOpenModal(true)}
+            >
+              <Trash className="size-4 hover:stroke-red-700" stroke="gray" />
+            </button>
+            {openModal && (
+              <Modal
+                title="Are you Sure?"
+                bodyText="This action cannot be undone. Are you sure you want to delete this recipe?"
+                confirmText="Delete"
+                handleDelete={handleDelete}
+                handleCancel={setOpenModal}
+              />
             )}
-          </button>
+            <button
+              onClick={handleSave}
+              className={`${!saved ? "bg-white" : "bg-orange-custom"} w-[25px] h-[25px] rounded-full flex justify-center items-center cursor-pointer`}
+            >
+              {!saved ? (
+                <Bookmark color="none" fill="gray" className="size-4" />
+              ) : (
+                <Bookmark color="none" fill="white" className="size-4" />
+              )}
+            </button>
+          </div>
         </div>
         <p className="text-[20px] font-bold font-nunito truncate w-full">
           {recipe.title}

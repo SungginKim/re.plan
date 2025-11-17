@@ -1,14 +1,17 @@
 import React from "react";
-import bg from '@/assets/images/bg.png'
+import bg from "@/assets/images/bg.png";
 import { useRecipeStore } from "@/stores/recipeStore";
 
 import RecipeCard from "@/components/RecipeCard";
 import CreateRecipeButton from "@/components/CreateRecipeButton";
+import { useOutletContext } from "react-router";
 
 const user = { name: "Sunggin Kim" };
 
 const HomePage = () => {
-  const recipes = useRecipeStore((state) => state.recipes)
+  const { category } = useOutletContext();
+  const recipes = useRecipeStore((state) => state.recipes);
+  // const filtered = category ? recipes.filter((r)=> r.category === category.toLowerCase())
   return (
     <div className="bg-[#F5F6FA] w-full min-h-screen md:p-8 p-3 relative">
       <div className="w-full flex flex-col flex-1 gap-2">
@@ -36,6 +39,6 @@ const HomePage = () => {
       </div>
     </div>
   );
-}
+};
 
 export default HomePage;

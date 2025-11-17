@@ -71,11 +71,11 @@ const RecipeCard = ({ recipe }) => {
         </p>
         <p className="flex">
           {<ChartNoAxesColumnIncreasing className="size-[13px]" />}
-          {recipe.prepTime}
+          {recipe.difficultyLevel}
         </p>
         <p className="flex">
           {<Timer className="size-[13px]" />}
-          {recipe.cookingTime}
+          {recipe.cookTime}
         </p>
       </div>
     </div>

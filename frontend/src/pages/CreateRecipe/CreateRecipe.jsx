@@ -3,15 +3,16 @@ import { ArrowLeft, Save, X } from "lucide-react";
 import Dropdown from "@/components/Dropdown";
 import { useRecipeStore } from "@/stores/recipeStore";
 import { useNavigate } from "react-router-dom";
+import { createRecipe as apiCreateRecipe } from "@/api";
 
-const categories = ["Appetizer", "Main", "Side", "Dessert", "Snack", "Drink"];
+const categories = ["Appetizer", "Main", "Side", "Dessert"];
 const difficultyLevels = ["Easy", "Moderate", "Difficult"];
 
 const CreateRecipe = () => {
   const [title, setTitle] = useState("");
-  const [cookingTime, setCookingTime] = useState(0);
-  const [prepTime, setPrepTime] = useState(0);
-  const [servings, setServings] = useState(0);
+  const [cookTime, setCookTime] = useState("");
+  const [prepTime, setPrepTime] = useState("");
+  const [servings, setServings] = useState("");
   const [ingredients, setIngredients] = useState([]);
   const [ingredientName, setIngredientName] = useState("");
   const [ingredientQty, setIngredientQty] = useState("");
@@ -24,33 +25,39 @@ const CreateRecipe = () => {
 
   const addRecipe = useRecipeStore((state) => state.addRecipe);
 
-  const handleSaveRecipe = (e) => {
+  const handleSaveRecipe = async (e) => {
     e.preventDefault();
     const newRecipe = {
       title,
       category,
       difficultyLevel,
-      servings,
-      prepTime,
-      cookingTime,
+      servings: Number(servings),
+      prepTime: Number(prepTime),
+      cookTime: Number(cookTime),
       ingredients,
       instructions: instructions.map((item) => item.text),
     };
 
-    addRecipe(newRecipe);
-    setTitle("");
-    setServings(0);
-    setCategory("");
-    setDifficultyLevel("");
-    setCookingTime(0);
-    setPrepTime(0);
-    setIngredients([]);
-    setIngredientName("");
-    setIngredientQty("");
-    setInstructions([]);
-    setInstructionStep("");
+    try {
+      const savedRecipe = await apiCreateRecipe(newRecipe);
+      addRecipe(savedRecipe);
+      setTitle("");
+      setServings("");
+      setCategory("");
+      setDifficultyLevel("");
+      setCookTime("");
+      setPrepTime("");
+      setIngredients([]);
+      setIngredientName("");
+      setIngredientQty("");
+      setInstructions([]);
+      setInstructionStep("");
 
-    navigate("/home");
+      navigate("/home");
+    } catch (error) {
+      console.log("Failed to save recipe", error);
+      alert("Please fill in all required fields");
+    }
   };
 
   const handleAddInstructions = (e) => {
@@ -83,7 +90,7 @@ const CreateRecipe = () => {
           </h1>
           <div className="flex gap-2">
             <button
-            type="button"
+              type="button"
               onClick={() => navigate("/home")}
               className="w-fit rounded-full border-2 border-gray-400 px-2 py-1 flex gap-1 font-semibold text-gray-700 cursor-pointer"
             >
@@ -142,7 +149,7 @@ const CreateRecipe = () => {
                   placeholder="0 mins"
                   className="border border-gray-500 rounded-sm px-2 py-1 w-full"
                   value={prepTime}
-                  onChange={(e) => setPrepTime(Number(e.target.value))}
+                  onChange={(e) => setPrepTime(e.target.value)}
                 />
               </div>
               <div className="flex flex-col">
@@ -151,18 +158,18 @@ const CreateRecipe = () => {
                   type="number"
                   placeholder="0 mins"
                   className="border border-gray-500 rounded-sm px-2 py-1 w-full"
-                  value={cookingTime}
-                  onChange={(e) => setCookingTime(Number(e.target.value))}
+                  value={cookTime}
+                  onChange={(e) => setCookTime(e.target.value)}
                 />
               </div>
               <div className="flex flex-col">
                 <label className="text-gray-700 block mb-1">Serving</label>
                 <input
                   type="number"
-                  placeholder="Enter Servings"
+                  placeholder="0 Servings"
                   className="border border-gray-500 rounded-sm px-2 py-1 w-full"
                   value={servings}
-                  onChange={(e) => setServings(Number(e.target.value))}
+                  onChange={(e) => setServings(e.target.value)}
                 />
               </div>
             </div>

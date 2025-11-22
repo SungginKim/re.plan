@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Searchbar from "@/components/Searchbar";
 import Dropdown from "@/components/Dropdown";
 import { SidebarProvider, SidebarTrigger } from "./components/ui/sidebar";
@@ -8,21 +8,23 @@ import { NotepadText, Bookmark, SlidersHorizontal } from "lucide-react";
 import profile from "@/assets/images/profile.jpg";
 import CreateRecipeButton from "./components/CreateRecipeButton";
 import { useLocation } from "react-router-dom";
+import { useRecipeStore } from "./stores/recipeStore";
 
 const content = [
   { title: "Recipes", url: "/home", icon: <NotepadText /> },
   { title: "Favorites", url: "/favorites", icon: <Bookmark /> },
 ];
 
-const utility = [
-  { title: "Settings", url: "/settings" },
-  { title: "Logout", url: "/" },
-];
+const utility = [{ title: "Logout", url: "/" }];
 const user = { name: "Sunggin Kim", avatar: profile };
 
 const categories = ["Appetizer", "Main", "Side", "Dessert"];
 
 const Wrapper = () => {
+  const loadRecipe = useRecipeStore((state) => state.loadRecipe);
+  useEffect(() => {
+    loadRecipe();
+  }, []);
   const [category, setCategory] = useState("");
   const currentPath = useLocation();
   const showCreateRecipeButton = ["/home", "/favorites"];

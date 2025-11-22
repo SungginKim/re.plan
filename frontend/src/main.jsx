@@ -6,9 +6,9 @@ import HomePage from "./pages/Home/HomePage";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 import Wrapper from "./wrapper";
 import FavoritesPage from "./pages/Favorites/FavoritesPage";
-import SettingsPage from "./pages/Settings/SettingsPage";
 import CreateRecipe from "./pages/CreateRecipe/CreateRecipe";
 import RequireAuth from "./authJWT";
+import FullRecipePage from "./pages/FullRecipe/FullRecipePage";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
@@ -32,20 +32,21 @@ createRoot(document.getElementById("root")).render(
               </RequireAuth>
             }
           />
-          <Route
-            path="/settings"
-            element={
-              <RequireAuth>
-                <SettingsPage />
-              </RequireAuth>
-            }
-          />
+    
         </Route>
         <Route
           path="/create-recipe"
           element={
             <RequireAuth>
               <CreateRecipe />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/recipe/:id"
+          element={
+            <RequireAuth>
+              <FullRecipePage />
             </RequireAuth>
           }
         />

@@ -39,8 +39,7 @@ const CreateRecipe = () => {
     };
 
     try {
-      const savedRecipe = await apiCreateRecipe(newRecipe);
-      addRecipe(savedRecipe);
+      await addRecipe(newRecipe);
       setTitle("");
       setServings("");
       setCategory("");

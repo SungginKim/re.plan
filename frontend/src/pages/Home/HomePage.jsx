@@ -11,7 +11,7 @@ const user = { name: "Sunggin Kim" };
 const HomePage = () => {
   const { category } = useOutletContext();
   const recipes = useRecipeStore((state) => state.recipes);
-  // const filtered = category ? recipes.filter((r)=> r.category === category.toLowerCase())
+  // const filtered = category ? recipes.filter((r)=> r.category === category.toLowerCase();
   return (
     <div className="bg-[#F5F6FA] w-full min-h-screen md:p-8 p-3 relative">
       <div className="w-full flex flex-col flex-1 gap-2">
@@ -34,7 +34,7 @@ const HomePage = () => {
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 pt-4">
         {recipes.map((recipe) => (
-          <RecipeCard key={recipe.id} recipe={recipe} />
+          <RecipeCard key={recipe._id} recipe={recipe} />
         ))}
       </div>
     </div>

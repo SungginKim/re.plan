@@ -139,3 +139,10 @@
     background-color: #ff7518;
   }
 }
+
+
+@layer recipePage {
+  .tags{
+    @apply w-fit px-3 py-1 border-2 border-[#0D0D0D] rounded-full;
+  }
+}

@@ -5,27 +5,22 @@ const recipeSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    category:{
+    category: {
         type: String,
         enum: ["Appetizer", "Main", "Side", "Dessert"],
-        required: true
     },
     difficultyLevel: {
         type: String,
-        enum: ['Easy', 'Moderate', 'Difficult'],
-        required: true
+        enum: ["Easy", "Moderate", "Difficult"],
     },
     servings: {
         type: Number,
-        required: true
     },
     prepTime: {
         type: Number,
-        required: true
     },
     cookTime: {
         type: Number,
-        required: true
     },
     instructions: [{
         type: String,
@@ -34,9 +29,8 @@ const recipeSchema = new mongoose.Schema({
         {
             name: {
                 type: String,
-                required: true
             },
-            measurement: {
+            qty: {
                 type: String
             }
         }

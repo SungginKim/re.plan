@@ -2,8 +2,9 @@ import Recipe from "../models/recipe.model.js";
 import mongoose from "mongoose";
 
 export const createRecipes = async (req, res) => {
+    console.log("Received body:", req.body);
     const recipe = req.body; // Note: User will send this data
-    if (!recipe.title || !recipe.category || !recipe.difficultyLevel || !recipe.servings || !recipe.prepTime || !recipe.cookTime || !recipe.ingredients) {
+    if (!recipe.title) {
         return res.status(400).json({ success: false, message: "Please provide the required fields" });
     }
 

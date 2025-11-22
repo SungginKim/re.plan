@@ -1,7 +1,4 @@
 import express from "express";
-import Recipe from '../models/recipe.model.js';
-import { data } from 'react-router';
-import mongoose from 'mongoose';
 import { deleteRecipes, getRecipes, updateRecipes, createRecipes } from "../controllers/recipe.controller.js";
 
 

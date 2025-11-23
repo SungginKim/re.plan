@@ -3,7 +3,6 @@ import { ArrowLeft, Save, X } from "lucide-react";
 import Dropdown from "@/components/Dropdown";
 import { useRecipeStore } from "@/stores/recipeStore";
 import { useNavigate } from "react-router-dom";
-import { createRecipe as apiCreateRecipe } from "@/api";
 
 const categories = ["Appetizer", "Main", "Side", "Dessert"];
 const difficultyLevels = ["Easy", "Moderate", "Difficult"];

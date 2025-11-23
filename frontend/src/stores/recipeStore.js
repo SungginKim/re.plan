@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { getRecipes, createRecipe, deleteRecipe } from "@/api"
+import { getRecipes, createRecipe, deleteRecipe, updatedRecipe } from "@/api"
 
 export const useRecipeStore = create((set) => ({
     recipes: [],
@@ -30,6 +30,14 @@ export const useRecipeStore = create((set) => ({
             recipes: state.recipes.filter((recipe) => recipe._id !== id),
             favorites: state.favorites.filter((favorite) => favorite._id !== id),
         }))
+    },
+    ediRecipe: async (id, updatedData) => {
+        const result = await updatedRecipe(id, updatedData);
+        set((state) => ({
+            recipes: state.recipes.map((recipe)=>
+            recipe._id === id ? result : recipe
+        ),
+        }));
     },
     toggleFavorites: (recipe) =>
         set((state) => {

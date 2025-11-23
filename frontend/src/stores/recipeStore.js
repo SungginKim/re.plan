@@ -31,7 +31,7 @@ export const useRecipeStore = create((set) => ({
             favorites: state.favorites.filter((favorite) => favorite._id !== id),
         }))
     },
-    ediRecipe: async (id, updatedData) => {
+    editRecipe: async (id, updatedData) => {
         const result = await updatedRecipe(id, updatedData);
         set((state) => ({
             recipes: state.recipes.map((recipe)=>

@@ -18,7 +18,7 @@ const content = [
 const utility = [{ title: "Logout", url: "/" }];
 const user = { name: "Sunggin Kim", avatar: profile };
 
-const categories = ["Appetizer", "Main", "Side", "Dessert"];
+const categories = ["Appetizer", "Main", "Side", "Dessert", "All"];
 
 const Wrapper = () => {
   const loadRecipe = useRecipeStore((state) => state.loadRecipe);
@@ -26,6 +26,7 @@ const Wrapper = () => {
     loadRecipe();
   }, []);
   const [category, setCategory] = useState("");
+  const [search, setSearch] = useState("");
   const currentPath = useLocation();
   const showCreateRecipeButton = ["/home", "/favorites"];
   return (
@@ -35,7 +36,7 @@ const Wrapper = () => {
         <SidebarTrigger className="block md:hidden ml-6 mt-4" />
         <div className="flex flex-1 flex-col">
           <div className="flex bg-white h-[50px] w-full justify-between items-center gap-5 px-5">
-            <Searchbar />
+            <Searchbar value={search} onChange={setSearch}/>
             <div className="hidden sm:block">
               <Dropdown
                 items={categories}
@@ -54,7 +55,7 @@ const Wrapper = () => {
             </div>
           </div>
           <div className="flex-1 overflow-auto">
-            <Outlet context={{ category }} />
+            <Outlet context={{ category, search }} />
             {showCreateRecipeButton.includes(currentPath.pathname) && (
               <CreateRecipeButton to={"/create-recipe"} />
             )}

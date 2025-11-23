@@ -27,7 +27,7 @@ const RecipeCard = ({ recipe }) => {
   };
 
   return (
-    <div className="h-[170px] bg-white rounded-xl flex flex-col justify-between p-3 cursor-pointer">
+    <div className="h-[170px] bg-white rounded-xl flex flex-col justify-between p-3 cursor-pointer hover:shadow-xl hover:-translate-y-2 transition-all ">
       <div className="flex flex-col gap-2">
         <div className="flex flex-1 justify-between">
           <div className="size-[67px] bg-[#FFDED1] rounded-3xl flex justify-center items-center">

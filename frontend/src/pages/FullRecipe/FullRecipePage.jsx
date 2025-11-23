@@ -24,8 +24,8 @@ const FullRecipePage = () => {
           <ArrowLeft className="stroke-gray-500 group-hover:stroke-orange-500 cursor-pointer" />
           Go Back
         </button>
-        <button>
-          <SquarePen className="float-right hover:stroke-orange-600" />
+        <button onClick={() => navigate(`/recipe/${id}/edit`)}>
+          <SquarePen className="float-right hover:stroke-orange-600 cursor-pointer" />
         </button>
       </div>
 

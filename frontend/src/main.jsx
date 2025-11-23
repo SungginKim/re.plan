@@ -9,6 +9,7 @@ import FavoritesPage from "./pages/Favorites/FavoritesPage";
 import CreateRecipe from "./pages/CreateRecipe/CreateRecipe";
 import RequireAuth from "./authJWT";
 import FullRecipePage from "./pages/FullRecipe/FullRecipePage";
+import EditRecipe from "./pages/EditRecipe/EditRecipe";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
@@ -32,7 +33,6 @@ createRoot(document.getElementById("root")).render(
               </RequireAuth>
             }
           />
-    
         </Route>
         <Route
           path="/create-recipe"
@@ -47,6 +47,14 @@ createRoot(document.getElementById("root")).render(
           element={
             <RequireAuth>
               <FullRecipePage />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/recipe/:id/edit"
+          element={
+            <RequireAuth>
+              <EditRecipe />
             </RequireAuth>
           }
         />

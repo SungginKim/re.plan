@@ -57,7 +57,7 @@ const Sidenav = ({ content, utility, user }) => {
             <SidebarMenu>
               {utility.map((item) => {
                 const isActive = location.pathname === item.url;
-                if (item.title === "Logout") {
+                if (item.isLogout) {
                   return (
                     <SidebarMenuItem key={item.title}>
                       <SidebarMenuButton

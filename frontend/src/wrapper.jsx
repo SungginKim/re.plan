@@ -15,7 +15,7 @@ const content = [
   { title: "Favorites", url: "/favorites", icon: <Bookmark /> },
 ];
 
-const utility = [{ title: "Logout", url: "/" }];
+const utility = [{ title: "Logout", isLogout: true}];
 const user = { name: "Sunggin Kim", avatar: profile };
 
 const categories = ["Appetizer", "Main", "Side", "Dessert", "All"];

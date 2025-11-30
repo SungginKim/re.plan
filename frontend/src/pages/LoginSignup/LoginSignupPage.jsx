@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import loginImg from "@/assets/images/login.jpg";
 import LoginForm from "./LoginForm";
 import SignupForm from "./SignupForm";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const LoginSignupPage = () => {
   const [name, setName] = useState("");
@@ -11,6 +11,13 @@ const LoginSignupPage = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [loginSignup, setLoginSignup] = useState("login");
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      navigate("/home");
+    }
+  }, [navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -30,6 +37,7 @@ const LoginSignupPage = () => {
         }
 
         localStorage.setItem("token", data.token);
+        localStorage.setItem("user", JSON.stringify(data.user));
         navigate("/home");
       } catch (err) {
         console.error(err);

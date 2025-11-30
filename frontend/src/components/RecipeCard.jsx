@@ -8,23 +8,16 @@ import { useRecipeStore } from "@/stores/recipeStore";
 import Modal from "./Modal";
 import { Link, useNavigate } from "react-router-dom";
 
-const RecipeCard = ({ recipe }) => {
+const RecipeCard = ({ recipe, onDeleteRequest }) => {
   const favorites = useRecipeStore((state) => state.favorites);
   const toggleFavorites = useRecipeStore((state) => state.toggleFavorites);
-  const removeRecipe = useRecipeStore((state) => state.removeRecipe);
   const saved = favorites.some((fav) => fav._id === recipe._id);
   const [save, setSave] = useState(false);
-  const [openModal, setOpenModal] = useState(false);
   const navigate = useNavigate();
 
   const handleSave = () => {
     toggleFavorites(recipe);
     setSave(!save);
-  };
-
-  const handleDelete = () => {
-    removeRecipe(recipe._id);
-    setOpenModal(false);
   };
 
   return (
@@ -37,19 +30,10 @@ const RecipeCard = ({ recipe }) => {
           <div className="flex align-items justify-center h-fit gap-2">
             <button
               className="cursor-pointer"
-              onClick={() => setOpenModal(true)}
+              onClick={() => onDeleteRequest(recipe._id)}
             >
               <Trash className="size-4 hover:stroke-red-700" stroke="gray" />
             </button>
-            {openModal && (
-              <Modal
-                title="Are you Sure?"
-                bodyText="This action cannot be undone. Are you sure you want to delete this recipe?"
-                confirmText="Delete"
-                handleDelete={handleDelete}
-                handleCancel={setOpenModal}
-              />
-            )}
             <button
               onClick={handleSave}
               className={`${!saved ? "bg-white" : "bg-orange-custom"} w-[25px] h-[25px] rounded-full flex justify-center items-center cursor-pointer`}

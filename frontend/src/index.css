@@ -4,6 +4,14 @@
 
 @custom-variant dark (&:is(.dark *));
 
+body {
+  height: 100vh;
+}
+
+#root {
+  height: 100vh;
+}
+
 @font-face {
   font-family: "Nunito";
   src: url("./assets/nunito/Nunito/Regular/400.ttf") format("truetype");
@@ -140,9 +148,8 @@
   }
 }
 
-
 @layer recipePage {
-  .tags{
+  .tags {
     @apply w-fit px-3 py-1 border-2 border-[#0D0D0D] rounded-full;
   }
 }

@@ -97,7 +97,7 @@ const CreateRecipe = () => {
             </button>
             <button
               type="submit"
-              className="w-fit rounded-full border-2 border-orange-custom px-2 py-1 flex gap-1 bg-orange-custom font-semibold text-white"
+              className="cursor-pointer w-fit rounded-full border-2 border-orange-custom px-2 py-1 flex gap-1 bg-orange-custom font-semibold text-white"
             >
               <Save />
               Save
@@ -198,7 +198,7 @@ const CreateRecipe = () => {
             </div>
             <button
               onClick={handleAddIngredients}
-              className="w-full bg-orange-custom text-white p-3 rounded-md"
+              className="w-full bg-orange-custom text-white p-3 rounded-md cursor-pointer"
             >
               Add Ingredients
             </button>
@@ -233,7 +233,7 @@ const CreateRecipe = () => {
             />
             <button
               onClick={handleAddInstructions}
-              className="w-full bg-orange-custom text-white p-3 rounded-md"
+              className="w-full bg-orange-custom text-white p-3 rounded-md cursor-pointer"
             >
               Add Instruction
             </button>

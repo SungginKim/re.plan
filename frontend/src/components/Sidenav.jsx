@@ -61,7 +61,7 @@ const Sidenav = ({ content, utility, user }) => {
                   return (
                     <SidebarMenuItem key={item.title}>
                       <SidebarMenuButton
-                        className="rounded-md py-4 text-sm md:py-6 md:text-md hover:bg-gray-100"
+                        className="rounded-md py-4 text-sm md:py-6 md:text-md hover:bg-gray-100 cursor-pointer text-red-700 font-semibold hover:text-red-700"
                         onClick={() => {
                           logout();
                           navigate("/");

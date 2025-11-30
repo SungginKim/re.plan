@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import { CookingPot } from "lucide-react";
 import { ChartNoAxesColumnIncreasing } from "lucide-react";
 import { Timer } from "lucide-react";
-import { Bookmark } from "lucide-react";
+import { Bookmark, SquarePen } from "lucide-react";
 import { Soup, Trash } from "lucide-react";
 import { useRecipeStore } from "@/stores/recipeStore";
 import Modal from "./Modal";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const RecipeCard = ({ recipe }) => {
   const favorites = useRecipeStore((state) => state.favorites);
@@ -15,6 +15,7 @@ const RecipeCard = ({ recipe }) => {
   const saved = favorites.some((fav) => fav._id === recipe._id);
   const [save, setSave] = useState(false);
   const [openModal, setOpenModal] = useState(false);
+  const navigate = useNavigate();
 
   const handleSave = () => {
     toggleFavorites(recipe);
@@ -58,6 +59,12 @@ const RecipeCard = ({ recipe }) => {
               ) : (
                 <Bookmark color="none" fill="white" className="size-4" />
               )}
+            </button>
+            <button onClick={() => navigate(`/recipe/${recipe._id}/edit`)}>
+              <SquarePen
+                stroke="gray"
+                className=" size-4 hover:stroke-orange-600 cursor-pointer"
+              />
             </button>
           </div>
         </div>

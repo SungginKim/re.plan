@@ -12,56 +12,6 @@ const LoginSignupPage = () => {
   const [loginSignup, setLoginSignup] = useState("login");
   const navigate = useNavigate();
 
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-
-  //   if (loginSignup === "login") {
-  //     try {
-  //       const res = await fetch("http://localhost:5000/api/users/login", {
-  //         method: "POST",
-  //         headers: { "Content-Type": "application/json" },
-  //         body: JSON.stringify({ email, password }),
-  //       });
-
-  //       const data = await res.json();
-
-  //       if (!res.ok) {
-  //         return alert(data.message);
-  //       }
-
-  //       localStorage.setItem("token", data.token);
-  //       navigate("/home");
-  //     } catch (err) {
-  //       console.error(err);
-  //       alert("Login failed");
-  //     }
-  //   } else {
-  //     try {
-  //       const res = await fetch("http://localhost:5000/api/users/register", {
-  //         method: "POST",
-  //         headers: { "Content-Type": "application/json" },
-  //         body: JSON.stringify({ username: name, email, password }),
-  //       });
-
-  //       const data = await res.json();
-
-  //       if (!res.ok) {
-  //         return alert(data.message);
-  //       }
-
-  //       alert("Signup successful! You can now log in.");
-  //       setLoginSignup("login");
-  //       setName("");
-  //       setEmail("");
-  //       setPassword("");
-  //       setConfirmPassword("");
-  //     } catch (err) {
-  //       console.error(err);
-  //       alert("Signup failed");
-  //     }
-  //   }
-  // };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -86,7 +36,6 @@ const LoginSignupPage = () => {
         alert("Login failed");
       }
     } else {
-      // Check if passwords match
       if (password !== confirmPassword) {
         return alert("Passwords do not match");
       }
@@ -120,7 +69,7 @@ const LoginSignupPage = () => {
   return (
     <div className="min-h-screen lg:grid lg:grid-cols-2 p-4 flex flex-col">
       <img
-        className="h-[180px] w-full lg:h-full lg:col-span-1 object-cover rounded-[24px]"
+        className="h-[180px]  lg:h-full lg:col-span-1 object-cover rounded-[24px]"
         src={loginImg}
         alt="flower background"
       />
@@ -165,7 +114,7 @@ const LoginSignupPage = () => {
                   setPassword("");
                   setConfirmPassword("");
                 }}
-                className="text-blue-800"
+                className="text-blue-800 cursor-pointer"
               >
                 Sign up
               </button>
@@ -181,7 +130,7 @@ const LoginSignupPage = () => {
                   setPassword("");
                   setConfirmPassword("");
                 }}
-                className="text-blue-800"
+                className="text-blue-800 cursor-pointer"
               >
                 Sign in
               </button>

@@ -6,12 +6,13 @@ import { Bookmark } from "lucide-react";
 import { Soup, Trash } from "lucide-react";
 import { useRecipeStore } from "@/stores/recipeStore";
 import Modal from "./Modal";
+import { Link } from "react-router-dom";
 
 const RecipeCard = ({ recipe }) => {
   const favorites = useRecipeStore((state) => state.favorites);
   const toggleFavorites = useRecipeStore((state) => state.toggleFavorites);
   const removeRecipe = useRecipeStore((state) => state.removeRecipe);
-  const saved = favorites.some((fav) => fav.id === recipe.id);
+  const saved = favorites.some((fav) => fav._id === recipe._id);
   const [save, setSave] = useState(false);
   const [openModal, setOpenModal] = useState(false);
 
@@ -21,12 +22,12 @@ const RecipeCard = ({ recipe }) => {
   };
 
   const handleDelete = () => {
-    removeRecipe(recipe.id);
+    removeRecipe(recipe._id);
     setOpenModal(false);
   };
 
   return (
-    <div className="h-[170px] bg-white rounded-xl flex flex-col justify-between p-3">
+    <div className="h-[170px] bg-white rounded-xl flex flex-col justify-between p-3 cursor-pointer hover:shadow-xl hover:-translate-y-2 transition-all ">
       <div className="flex flex-col gap-2">
         <div className="flex flex-1 justify-between">
           <div className="size-[67px] bg-[#FFDED1] rounded-3xl flex justify-center items-center">
@@ -60,24 +61,28 @@ const RecipeCard = ({ recipe }) => {
             </button>
           </div>
         </div>
-        <p className="text-[20px] font-bold font-nunito truncate w-full">
-          {recipe.title}
-        </p>
+        <Link to={`/recipe/${recipe._id}`}>
+          <p className="text-[20px] font-bold font-nunito truncate w-full">
+            {recipe.title}
+          </p>
+        </Link>
       </div>
-      <div className="flex gap-5 text-[10px] text-gray-500 font-semibold h-fit w-fit">
-        <p className="flex ">
-          {<CookingPot className="size-[13px]" />}
-          {recipe.category}
-        </p>
-        <p className="flex">
-          {<ChartNoAxesColumnIncreasing className="size-[13px]" />}
-          {recipe.prepTime}
-        </p>
-        <p className="flex">
-          {<Timer className="size-[13px]" />}
-          {recipe.cookingTime}
-        </p>
-      </div>
+      <Link to={`/recipe/${recipe._id}`}>
+        <div className="flex gap-5 text-[10px] text-gray-500 font-semibold h-fit w-fit">
+          <p className="flex ">
+            {<CookingPot className="size-[13px]" />}
+            {recipe.category}
+          </p>
+          <p className="flex">
+            {<ChartNoAxesColumnIncreasing className="size-[13px]" />}
+            {recipe.difficultyLevel}
+          </p>
+          <p className="flex">
+            {<Timer className="size-[13px]" />}
+            {recipe.cookTime}
+          </p>
+        </div>
+      </Link>
     </div>
   );
 };

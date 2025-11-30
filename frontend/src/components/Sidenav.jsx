@@ -8,11 +8,13 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { Link, useLocation } from "react-router-dom"; 
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useAuthStore } from "@/stores/authStore";
 
-
-const Sidenav = ({ content, utility, user}) => {
+const Sidenav = ({ content, utility, user }) => {
   const location = useLocation();
+  const navigate = useNavigate();
+  const logout = useAuthStore((state) => state.logout);
   return (
     <Sidebar className=" border-white">
       <SidebarContent className="bg-white">
@@ -55,6 +57,21 @@ const Sidenav = ({ content, utility, user}) => {
             <SidebarMenu>
               {utility.map((item) => {
                 const isActive = location.pathname === item.url;
+                if (item.title === "Logout") {
+                  return (
+                    <SidebarMenuItem key={item.title}>
+                      <SidebarMenuButton
+                        className="rounded-md py-4 text-sm md:py-6 md:text-md hover:bg-gray-100"
+                        onClick={() => {
+                          logout();
+                          navigate("/");
+                        }}
+                      >
+                        {item.title}
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  );
+                }
                 return (
                   <SidebarMenuItem key={item.title}>
                     <SidebarMenuButton

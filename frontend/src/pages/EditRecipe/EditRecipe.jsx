@@ -1,13 +1,22 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ArrowLeft, Save, X } from "lucide-react";
 import Dropdown from "@/components/Dropdown";
 import { useRecipeStore } from "@/stores/recipeStore";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const categories = ["Appetizer", "Main", "Side", "Dessert"];
 const difficultyLevels = ["Easy", "Moderate", "Difficult"];
 
-const CreateRecipe = () => {
+const EditRecipe = () => {
+  const { id } = useParams();
+  const navigate = useNavigate();
+
+  const recipe = useRecipeStore((state) =>
+    state.recipes.find((r) => r._id === id)
+  );
+
+  const editRecipe = useRecipeStore((state) => state.editRecipe);
+
   const [title, setTitle] = useState("");
   const [cookTime, setCookTime] = useState("");
   const [prepTime, setPrepTime] = useState("");
@@ -20,13 +29,30 @@ const CreateRecipe = () => {
 
   const [instructions, setInstructions] = useState([]);
   const [instructionStep, setInstructionStep] = useState("");
-  const navigate = useNavigate();
 
-  const addRecipe = useRecipeStore((state) => state.addRecipe);
+  useEffect(() => {
+    if (!recipe) return;
 
-  const handleSaveRecipe = async (e) => {
+    setTitle(recipe.title);
+    setCategory(recipe.category || "");
+    setDifficultyLevel(recipe.difficultyLevel || "");
+    setServings(recipe.servings || "");
+    setPrepTime(recipe.prepTime || "");
+    setCookTime(recipe.cookTime || "");
+
+    setIngredients(recipe.ingredients || []);
+
+    setInstructions(
+      (recipe.instructions || []).map((text, idx) => ({
+        id: idx + 1,
+        text,
+      }))
+    );
+  }, [recipe]);
+  const handleUpdateRecipe = async (e) => {
     e.preventDefault();
-    const newRecipe = {
+
+    const updatedRecipe = {
       title,
       category,
       difficultyLevel,
@@ -38,34 +64,12 @@ const CreateRecipe = () => {
     };
 
     try {
-      await addRecipe(newRecipe);
-      setTitle("");
-      setServings("");
-      setCategory("");
-      setDifficultyLevel("");
-      setCookTime("");
-      setPrepTime("");
-      setIngredients([]);
-      setIngredientName("");
-      setIngredientQty("");
-      setInstructions([]);
-      setInstructionStep("");
-
+      await editRecipe(id, updatedRecipe);
       navigate("/home");
     } catch (error) {
-      console.log("Failed to save recipe", error);
-      alert("Please fill in all required fields");
+      console.error("Failed to update recipe", error);
+      alert("Failed to update recipe");
     }
-  };
-
-  const handleAddInstructions = (e) => {
-    e.preventDefault();
-    if (!instructionStep) return;
-    setInstructions([
-      ...instructions,
-      { id: Date.now(), text: instructionStep },
-    ]);
-    setInstructionStep("");
   };
 
   const handleAddIngredients = (e) => {
@@ -79,13 +83,26 @@ const CreateRecipe = () => {
     setIngredientQty("");
   };
 
+  const handleAddInstructions = (e) => {
+    e.preventDefault();
+    if (!instructionStep) return;
+    setInstructions([
+      ...instructions,
+      { id: Date.now(), text: instructionStep },
+    ]);
+    setInstructionStep("");
+  };
+
+  if (!recipe) return <p className="p-6">Recipe not found…</p>;
+
   return (
     <div className="bg-[#F5F6FA] w-full min-h-screen md:p-8 p-3">
-      <form onSubmit={handleSaveRecipe}>
+      <form onSubmit={handleUpdateRecipe}>
         <div className="flex justify-between items-center pb-3">
           <h1 className="lg:text-3xl md:text-2xl sm:text-xl text-lg font-semibold font-nunito">
-            Create a Recipe!
+            Edit Recipe
           </h1>
+
           <div className="flex gap-2">
             <button
               type="button"
@@ -95,12 +112,13 @@ const CreateRecipe = () => {
               <ArrowLeft color="gray" />
               Go Back
             </button>
+
             <button
               type="submit"
-              className="w-fit rounded-full border-2 border-orange-custom px-2 py-1 flex gap-1 bg-orange-custom font-semibold text-white"
+              className="w-fit rounded-full border-2 border-orange-custom px-2 py-1 flex gap-1 bg-orange-custom font-semibold text-white cursor-pointer"
             >
               <Save />
-              Save
+              Save Changes
             </button>
           </div>
         </div>
@@ -110,61 +128,53 @@ const CreateRecipe = () => {
               <label className="text-gray-700 block mb-1">Title</label>
               <input
                 className="border border-gray-500 rounded-sm px-2 py-1 w-full"
-                placeholder="Enter Title"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
               />
             </div>
+
             <div className="grid grid-cols-2 gap-2">
-              <div className="flex flex-col">
+              <div>
                 <label className="text-gray-700 block mb-1">Category</label>
                 <Dropdown
                   items={categories}
-                  placeholder="Select a Category"
                   value={category}
                   onChange={setCategory}
-                  className="w-full"
                 />
               </div>
-              <div className="flex flex-col">
-                <label className="text-gray-700 block mb-1">
-                  Difficulty Level
-                </label>
+              <div>
+                <label className="text-gray-700 block mb-1">Difficulty</label>
                 <Dropdown
                   items={difficultyLevels}
-                  placeholder="Select a Category"
                   value={difficultyLevel}
                   onChange={setDifficultyLevel}
-                  className="w-full"
                 />
               </div>
             </div>
+
             <div className="grid grid-cols-3 gap-2">
-              <div className="flex flex-col">
+              <div>
                 <label className="text-gray-700 block mb-1">Prep Time</label>
                 <input
                   type="number"
-                  placeholder="0 mins"
                   className="border border-gray-500 rounded-sm px-2 py-1 w-full"
                   value={prepTime}
                   onChange={(e) => setPrepTime(e.target.value)}
                 />
               </div>
-              <div className="flex flex-col">
-                <label className="text-gray-700 block mb-1">Cooking Time</label>
+              <div>
+                <label className="text-gray-700 block mb-1">Cook Time</label>
                 <input
                   type="number"
-                  placeholder="0 mins"
                   className="border border-gray-500 rounded-sm px-2 py-1 w-full"
                   value={cookTime}
                   onChange={(e) => setCookTime(e.target.value)}
                 />
               </div>
-              <div className="flex flex-col">
-                <label className="text-gray-700 block mb-1">Serving</label>
+              <div>
+                <label className="text-gray-700 block mb-1">Servings</label>
                 <input
                   type="number"
-                  placeholder="0 Servings"
                   className="border border-gray-500 rounded-sm px-2 py-1 w-full"
                   value={servings}
                   onChange={(e) => setServings(e.target.value)}
@@ -172,38 +182,34 @@ const CreateRecipe = () => {
               </div>
             </div>
           </div>
-
           <div className="bg-white rounded-xl p-4 flex flex-col gap-4 md:min-h-screen">
             <div className="grid grid-cols-3 gap-2">
-              <div className="flex flex-col col-span-2">
-                <label className="text-gray-700 block mb-1">Ingredients</label>
+              <div className="col-span-2">
+                <label className="text-gray-700 block mb-1">Ingredient</label>
                 <input
-                  type="text"
-                  placeholder="Enter Ingredient"
                   value={ingredientName}
                   onChange={(e) => setIngredientName(e.target.value)}
                   className="border border-gray-500 rounded-sm px-2 py-1 w-full"
                 />
               </div>
-              <div className="flex flex-col">
+              <div>
                 <label className="text-gray-700 block mb-1">Quantity</label>
                 <input
-                  type="text"
-                  placeholder="1 cup"
                   value={ingredientQty}
                   onChange={(e) => setIngredientQty(e.target.value)}
                   className="border border-gray-500 rounded-sm px-2 py-1 w-full"
                 />
               </div>
             </div>
+
             <button
               onClick={handleAddIngredients}
               className="w-full bg-orange-custom text-white p-3 rounded-md"
             >
-              Add Ingredients
+              Add Ingredient
             </button>
 
-            <ul className="w-full">
+            <ul>
               {ingredients.map((item, i) => (
                 <li
                   key={i}
@@ -212,7 +218,6 @@ const CreateRecipe = () => {
                   <span className="col-span-2 break-words">{item.name}</span>
                   <span>{item.qty}</span>
                   <button
-                    className="flex justify-end"
                     onClick={() =>
                       setIngredients(ingredients.filter((_, idx) => idx !== i))
                     }
@@ -226,11 +231,11 @@ const CreateRecipe = () => {
           <div className="bg-white rounded-xl p-4 flex flex-col gap-4 md:min-h-screen">
             <label className="text-gray-700 block mb-1">Instructions</label>
             <textarea
-              placeholder="Enter Instruction"
               value={instructionStep}
               onChange={(e) => setInstructionStep(e.target.value)}
               className="border border-gray-500 rounded-sm px-2 py-1 w-full"
             />
+
             <button
               onClick={handleAddInstructions}
               className="w-full bg-orange-custom text-white p-3 rounded-md"
@@ -238,18 +243,15 @@ const CreateRecipe = () => {
               Add Instruction
             </button>
 
-            <ol className="list-decimal list-outside pl-6">
+            <ol className="list-decimal pl-6">
               {instructions.map((item) => (
                 <li key={item.id} className="py-2">
                   <div className="flex justify-between items-start">
-                    <span className="flex-1">{item.text}</span>
+                    <span>{item.text}</span>
                     <button
-                      className="ml-2"
                       onClick={() =>
                         setInstructions(
-                          instructions.filter(
-                            (instruction) => instruction.id !== item.id
-                          )
+                          instructions.filter((inst) => inst.id !== item.id)
                         )
                       }
                     >
@@ -266,4 +268,4 @@ const CreateRecipe = () => {
   );
 };
 
-export default CreateRecipe;
+export default EditRecipe;

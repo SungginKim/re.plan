@@ -14,7 +14,7 @@ app.use(cors({
     credentials: true
 }));
 app.use("/api/recipes", recipeRoutes);
-app.use("/api/users", authRoutes);
+app.use("/api/auth", authRoutes);
 
 connectDB()
     .then(() => {

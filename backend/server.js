@@ -5,6 +5,7 @@ import cors from "cors";
 import { connectDB } from "./config/db.js";
 import recipeRoutes from "./routes/recipe.route.js";
 import authRoutes from "./routes/auth.js";
+import favoriteRoutes from "./routes/favorites.route.js"
 
 
 const app = express();
@@ -15,6 +16,7 @@ app.use(cors({
 }));
 app.use("/api/recipes", recipeRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/favorites", favoriteRoutes);
 
 connectDB()
     .then(() => {

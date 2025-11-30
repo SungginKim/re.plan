@@ -1,37 +1,44 @@
-import { React, useState } from "react";
+import { React, useState, useEffect } from "react";
 import RecipeCard from "@/components/RecipeCard";
 import { useRecipeStore } from "@/stores/recipeStore";
 import Modal from "@/components/Modal";
 import { useOutletContext } from "react-router";
 
 const FavoritesPage = () => {
+  const { category, search } = useOutletContext();
   const favorites = useRecipeStore((state) => state.favorites);
+  const loadFavorites = useRecipeStore((state) => state.loadFavorites);
   const removeRecipe = useRecipeStore((state) => state.removeRecipe);
   const [openModal, setOpenModal] = useState(false);
   const [selectedRecipeId, setSelectedRecipeId] = useState(null);
-  const { category, search } = useOutletContext();
-  const filteredFavorites = favorites.filter((recipe) => {
-    const matchedSearch = recipe.title
-      .toLowerCase()
-      .includes(search.toLowerCase());
 
-    const matchedCategory =
-      !category || category === "All"
-        ? true
-        : recipe.category.toLowerCase() === category.toLowerCase();
+  useEffect(() => {
+    loadFavorites();
+  }, []);
 
-    return matchedSearch && matchedCategory;
-  });
+  const filteredFavorites = favorites
+    .filter((recipe) => recipe && recipe.title && recipe.category)
+    .filter((recipe) => {
+      const matchedSearch = recipe.title
+        .toLowerCase()
+        .includes(search?.toLowerCase() || "");
 
-  const handleDeleteRequest = (id) => {
-    setSelectedRecipeId(id);
-    setOpenModal(true);
-  };
+      const matchedCategory =
+        !category || category === "All"
+          ? true
+          : recipe.category.toLowerCase() === category.toLowerCase();
+
+      return matchedSearch && matchedCategory;
+    });
 
   const confirmDelete = () => {
     removeRecipe(selectedRecipeId);
     setOpenModal(false);
     setSelectedRecipeId(null);
+  };
+  const handleDeleteRequest = (id) => {
+    setSelectedRecipeId(id);
+    setOpenModal(true);
   };
 
   return (
@@ -46,6 +53,7 @@ const FavoritesPage = () => {
             key={recipe._id}
             recipe={recipe}
             onDeleteRequest={handleDeleteRequest}
+            isSaved={true}
           />
         ))}
       </div>

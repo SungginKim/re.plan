@@ -1,7 +1,7 @@
-import { React, useState } from "react";
+import { React, useState, useEffect } from "react";
 import bg from "@/assets/images/bg.png";
 import { useRecipeStore } from "@/stores/recipeStore";
-import { useAuthStore } from "../../stores/authStore";
+import { useAuthStore } from "@/stores/authStore";
 
 import RecipeCard from "@/components/RecipeCard";
 import Modal from "@/components/Modal";
@@ -9,8 +9,10 @@ import { useOutletContext } from "react-router";
 
 const HomePage = () => {
   const { category, search } = useOutletContext();
-  const recipes = useRecipeStore((state) => state.recipes);
   const user = useAuthStore((state) => state.user);
+  const recipes = useRecipeStore((state) => state.recipes);
+  const favorites = useRecipeStore((state) => state.favorites);
+  const loadFavorites = useRecipeStore((state) => state.loadFavorites);
   const loading = useRecipeStore((state) => state.loading);
   const [openModal, setOpenModal] = useState(false);
   const [selectedRecipeId, setSelectedRecipeId] = useState(null);
@@ -19,6 +21,9 @@ const HomePage = () => {
   if (!recipes || loading) {
     return <div>Loading recipes...</div>;
   }
+  useEffect(() => {
+    if (user) loadFavorites();
+  }, [user]);
 
   const filteredRecipes = recipes.filter((recipe) => {
     const matchedSearch = recipe.title
@@ -67,6 +72,10 @@ const HomePage = () => {
             key={recipe._id}
             recipe={recipe}
             onDeleteRequest={handleDeleteRequest}
+            isSaved={
+              Array.isArray(favorites) &&
+              favorites.some((fav) => fav?._id === recipe._id)
+            }
           />
         ))}
       </div>

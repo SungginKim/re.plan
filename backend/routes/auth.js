@@ -5,9 +5,6 @@ import jwt from "jsonwebtoken";
 
 const router = express.Router();
 
-//register
-// 201 means user is created
-
 router.post("/register", async (req, res) => {
     const { username, email, password } = req.body;
     try {
@@ -32,9 +29,6 @@ router.post("/register", async (req, res) => {
     }
 })
 
-//login
-//200 means that everything went well
-
 router.post("/login", async (req, res) => {
     const { email, password } = req.body;
     try {
@@ -43,7 +37,7 @@ router.post("/login", async (req, res) => {
         }
         const user = await User.findOne({ email });
 
-        if (!user || !(user.matchPassword(password))) {
+        if (!user || !(await user.matchPassword(password))) {
             return res.status(401).json({ message: "Invalid credentials" });
         }
         const token = generateToken(user._id);
@@ -58,13 +52,9 @@ router.post("/login", async (req, res) => {
     }
 })
 
-//this needs to be protected by middleware, in this case a function called protect
-
 router.get("/me", protect, async (req, res) => {
     res.status(200).json(req.user)
 })
-
-//generate jwt token
 
 const generateToken = (id) => {
     return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "30d" })

@@ -31,7 +31,7 @@ const FullRecipePage = () => {
 
       <div>
         <h1 className="text-5xl font-bold mb-2 py-2">{recipe.title}</h1>
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-2">
           <div className="tags">
             <p>{recipe.category}</p>
           </div>
@@ -47,23 +47,42 @@ const FullRecipePage = () => {
         </div>
       </div>
       <hr className="my-4" />
-      <div>
-        <ul className="list-disc mx-8">
-          {recipe.ingredients.map((ing, idx) => (
-            <li key={idx}>
-              {ing.name} - {ing.qty}
-            </li>
-          ))}
-        </ul>
-      </div>
+      <h2 className="text-xl font-bold mb-2">Ingredients</h2>
+      {recipe.ingredients && recipe.ingredients.length > 0 ? (
+        <div>
+          <ul className="list-disc mx-8">
+            {recipe.ingredients.map((ing, idx) => (
+              <li key={idx}>
+                {ing.name} - {ing.qty}
+              </li>
+            ))}
+          </ul>
+        </div>
+      ) : (
+        <p className="text-gray-500 italic">No Ingredients...</p>
+      )}
       <hr className="my-4" />
-      <div>
-        <ol className="list-decimal mx-8">
-          {recipe.instructions.map((ins, idx) => (
-            <li key={idx}>{ins}</li>
-          ))}
-        </ol>
-      </div>
+      <h2 className="text-xl font-bold mb-2">Instructions</h2>
+      {recipe.instructions && recipe.instructions.length > 0 ? (
+        <div>
+          <div>
+            <ol className="list-decimal mx-8">
+              {recipe.instructions.map((ins, idx) => (
+                <li key={idx}>{ins}</li>
+              ))}
+            </ol>
+          </div>
+        </div>
+      ) : (
+        <p className="text-gray-500 italic">No Instructions..</p>
+      )}
+      <hr className="my-4" />
+      <h2 className="text-xl font-bold mb-2">Notes</h2>
+      {recipe.notes ? (
+        <p className="whitespace-pre-wrap">{recipe.notes}</p>
+      ) : (
+        <p className="text-gray-500 italic">No Notes...</p>
+      )}
     </div>
   );
 };

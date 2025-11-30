@@ -26,6 +26,7 @@ const EditRecipe = () => {
   const [ingredientQty, setIngredientQty] = useState("");
   const [category, setCategory] = useState("");
   const [difficultyLevel, setDifficultyLevel] = useState("");
+  const [notes, setNotes] = useState("");
 
   const [instructions, setInstructions] = useState([]);
   const [instructionStep, setInstructionStep] = useState("");
@@ -48,6 +49,7 @@ const EditRecipe = () => {
         text,
       }))
     );
+    setNotes(recipe.notes || "");
   }, [recipe]);
   const handleUpdateRecipe = async (e) => {
     e.preventDefault();
@@ -61,6 +63,7 @@ const EditRecipe = () => {
       cookTime: Number(cookTime),
       ingredients,
       instructions: instructions.map((item) => item.text),
+      notes,
     };
 
     try {
@@ -107,15 +110,14 @@ const EditRecipe = () => {
             <button
               type="button"
               onClick={() => navigate("/home")}
-              className="w-fit rounded-full border-2 border-gray-400 px-2 py-1 flex gap-1 font-semibold text-gray-700 cursor-pointer"
+              className="w-full sm:w-auto rounded-full border-2 border-gray-400 px-2 py-1 flex items-center gap-1 font-semibold text-gray-700 cursor-pointer justify-center text-sm sm:text-base"
             >
               <ArrowLeft color="gray" />
               Go Back
             </button>
-
             <button
               type="submit"
-              className="w-fit rounded-full border-2 border-orange-custom px-2 py-1 flex gap-1 bg-orange-custom font-semibold text-white cursor-pointer"
+              className="w-full sm:w-auto cursor-pointer rounded-full border-2 border-orange-custom px-2 py-1 flex items-center gap-1 bg-orange-custom font-semibold text-white justify-center text-sm sm:text-base"
             >
               <Save />
               Save Changes
@@ -261,6 +263,14 @@ const EditRecipe = () => {
                 </li>
               ))}
             </ol>
+            <div className="mt-auto">
+              <label className="text-gray-700 block mb-1">Notes</label>
+              <textarea
+                value={notes}
+                onChange={(e) => setNotes(e.target.value)}
+                className="border border-gray-500 rounded-sm px-2 py-1 w-full h-32 resize-none"
+              />
+            </div>
           </div>
         </div>
       </form>

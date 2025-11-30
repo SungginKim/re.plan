@@ -17,6 +17,7 @@ const CreateRecipe = () => {
   const [ingredientQty, setIngredientQty] = useState("");
   const [category, setCategory] = useState("");
   const [difficultyLevel, setDifficultyLevel] = useState("");
+  const [notes, setNotes] = useState("");
 
   const [instructions, setInstructions] = useState([]);
   const [instructionStep, setInstructionStep] = useState("");
@@ -35,6 +36,7 @@ const CreateRecipe = () => {
       cookTime: Number(cookTime),
       ingredients,
       instructions: instructions.map((item) => item.text),
+      notes,
     };
 
     try {
@@ -50,6 +52,7 @@ const CreateRecipe = () => {
       setIngredientQty("");
       setInstructions([]);
       setInstructionStep("");
+      setNotes("");
 
       navigate("/home");
     } catch (error) {
@@ -90,14 +93,14 @@ const CreateRecipe = () => {
             <button
               type="button"
               onClick={() => navigate("/home")}
-              className="w-fit rounded-full border-2 border-gray-400 px-2 py-1 flex gap-1 font-semibold text-gray-700 cursor-pointer"
+              className="w-full sm:w-auto rounded-full border-2 border-gray-400 px-2 py-1 flex items-center gap-1 font-semibold text-gray-700 cursor-pointer justify-center text-sm sm:text-base"
             >
               <ArrowLeft color="gray" />
               Go Back
             </button>
             <button
               type="submit"
-              className="w-fit rounded-full border-2 border-orange-custom px-2 py-1 flex gap-1 bg-orange-custom font-semibold text-white"
+              className="w-full sm:w-auto cursor-pointer rounded-full border-2 border-orange-custom px-2 py-1 flex items-center gap-1 bg-orange-custom font-semibold text-white justify-center text-sm sm:text-base"
             >
               <Save />
               Save
@@ -107,7 +110,9 @@ const CreateRecipe = () => {
         <div className="grid md:grid-cols-3 grid-cols-1 gap-4 items-stretch md:min-h-screen">
           <div className="bg-white rounded-xl p-4 flex flex-col gap-4 md:min-h-screen">
             <div>
-              <label className="text-gray-700 block mb-1">Title</label>
+              <label className="text-gray-700 block mb-1">
+                Title<span className="text-red-600">*</span>
+              </label>
               <input
                 className="border border-gray-500 rounded-sm px-2 py-1 w-full"
                 placeholder="Enter Title"
@@ -117,7 +122,9 @@ const CreateRecipe = () => {
             </div>
             <div className="grid grid-cols-2 gap-2">
               <div className="flex flex-col">
-                <label className="text-gray-700 block mb-1">Category</label>
+                <label className="text-gray-700 block mb-1">
+                  Category<span className="text-red-600">*</span>
+                </label>
                 <Dropdown
                   items={categories}
                   placeholder="Select a Category"
@@ -128,7 +135,7 @@ const CreateRecipe = () => {
               </div>
               <div className="flex flex-col">
                 <label className="text-gray-700 block mb-1">
-                  Difficulty Level
+                  Difficulty Level<span className="text-red-600">*</span>
                 </label>
                 <Dropdown
                   items={difficultyLevels}
@@ -141,7 +148,9 @@ const CreateRecipe = () => {
             </div>
             <div className="grid grid-cols-3 gap-2">
               <div className="flex flex-col">
-                <label className="text-gray-700 block mb-1">Prep Time</label>
+                <label className="text-gray-700 block mb-1">
+                  Prep Time<span className="text-red-600">*</span>
+                </label>
                 <input
                   type="number"
                   placeholder="0 mins"
@@ -151,7 +160,9 @@ const CreateRecipe = () => {
                 />
               </div>
               <div className="flex flex-col">
-                <label className="text-gray-700 block mb-1">Cooking Time</label>
+                <label className="text-gray-700 block mb-1">
+                  Cooking Time<span className="text-red-600">*</span>
+                </label>
                 <input
                   type="number"
                   placeholder="0 mins"
@@ -161,7 +172,9 @@ const CreateRecipe = () => {
                 />
               </div>
               <div className="flex flex-col">
-                <label className="text-gray-700 block mb-1">Serving</label>
+                <label className="text-gray-700 block mb-1">
+                  Serving<span className="text-red-600">*</span>
+                </label>
                 <input
                   type="number"
                   placeholder="0 Servings"
@@ -198,7 +211,7 @@ const CreateRecipe = () => {
             </div>
             <button
               onClick={handleAddIngredients}
-              className="w-full bg-orange-custom text-white p-3 rounded-md"
+              className="w-full bg-orange-custom text-white p-3 rounded-md cursor-pointer"
             >
               Add Ingredients
             </button>
@@ -233,7 +246,7 @@ const CreateRecipe = () => {
             />
             <button
               onClick={handleAddInstructions}
-              className="w-full bg-orange-custom text-white p-3 rounded-md"
+              className="w-full bg-orange-custom text-white p-3 rounded-md cursor-pointer"
             >
               Add Instruction
             </button>
@@ -259,6 +272,15 @@ const CreateRecipe = () => {
                 </li>
               ))}
             </ol>
+            <div className="mt-auto">
+              <label className="text-gray-700 block mb-1">Notes</label>
+              <textarea
+                placeholder="Add any notes for your recipe..."
+                value={notes}
+                onChange={(e) => setNotes(e.target.value)}
+                className="border border-gray-500 rounded-sm px-2 py-1 w-full h-32 resize-none"
+              />
+            </div>
           </div>
         </div>
       </form>

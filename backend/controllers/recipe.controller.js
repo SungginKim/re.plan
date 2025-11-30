@@ -3,12 +3,17 @@ import mongoose from "mongoose";
 
 export const createRecipes = async (req, res) => {
     console.log("Received body:", req.body);
-    const recipe = req.body; // Note: User will send this data
+    const recipe = req.body;
+
+    if (!req.user) {
+        return res.status(401).json({ success: false, message: "Not authorized" });
+    }
+
     if (!recipe.title) {
         return res.status(400).json({ success: false, message: "Please provide the required fields" });
     }
 
-    const newRecipe = new Recipe(recipe);
+    const newRecipe = new Recipe({ ...recipe, userId: req.user._id });
 
     try {
         await newRecipe.save();
@@ -18,6 +23,7 @@ export const createRecipes = async (req, res) => {
         res.status(500).json({ success: false, message: "Server Error" });
     }
 }
+
 
 export const deleteRecipes = async (req, res) => {
     const { id } = req.params;
@@ -45,7 +51,7 @@ export const updateRecipes = async (req, res) => {
 
 export const getRecipes = async (req, res) => {
     try {
-        const recipes = await Recipe.find({});
+        const recipes = await Recipe.find({ userId: req.user._id });
         res.status(200).json({ success: true, data: recipes });
 
     } catch (error) {

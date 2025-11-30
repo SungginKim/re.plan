@@ -31,13 +31,17 @@ const recipeSchema = new mongoose.Schema({
                 type: String,
             },
             qty: {
-                type: String
+                type: String,
             }
         }
-    ]
+    ],
+    notes: {
+        type: String,
+    },
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
 },
     {
-        timestamps: true //Note for self --> createdAt, updatedAt
+        timestamps: true
     }
 );
 

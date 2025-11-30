@@ -1,6 +1,12 @@
 import React from "react";
 
-const LoginForm = ({handleSubmit, email, setEmail, password, setPassword}) => {
+const LoginForm = ({
+  handleSubmit,
+  email,
+  setEmail,
+  password,
+  setPassword,
+}) => {
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-2">
       <div className="flex flex-col">
@@ -12,6 +18,7 @@ const LoginForm = ({handleSubmit, email, setEmail, password, setPassword}) => {
           required
           value={email}
           placeholder="user@email.com"
+          autoComplete="email"
           onChange={(e) => setEmail(e.target.value)}
         />
       </div>
@@ -24,6 +31,7 @@ const LoginForm = ({handleSubmit, email, setEmail, password, setPassword}) => {
           required
           value={password}
           placeholder="Enter password"
+          autoComplete="current-password"
           onChange={(e) => setPassword(e.target.value)}
         />
       </div>

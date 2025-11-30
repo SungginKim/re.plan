@@ -19,17 +19,14 @@ const userSchema = new mongoose.Schema({
 }, { timestamps: true });
 
 userSchema.pre("save", async function (next) {
-    if (!this.isModified("password")) next();
+    if (!this.isModified("password")) return next();
     const salt = await bcrypt.genSalt(10);
-    //10 is the number of salt rounds (common default)
     this.password = await bcrypt.hash(this.password, salt);
     next();
 })
 
 userSchema.methods.matchPassword = async function (enteredPassword) {
     return await bcrypt.compare(enteredPassword, this.password);
-    //if they match, itll return true, otherwise false.
-    // I made this inside User.js to ensure that the password is always hashed
 }
 
 const User = mongoose.model("User", userSchema);
